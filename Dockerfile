@@ -8,7 +8,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 
 # 复制 MyApiApp.csproj 文件到容器中的 /src/MyApiApp 目录
-COPY ["MyApiApp/MyApiApp.csproj", "MyApiApp/"]
+COPY ["MyApiApp/MyApiApp.csproj", "/src/MyApiApp/"]
 
 # 恢复依赖项
 RUN dotnet restore "MyApiApp/MyApiApp.csproj"
