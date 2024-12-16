@@ -62,8 +62,8 @@ jobs:
             docker pull ${{ secrets.ALIYUN_REGISTRY }}/myapiapp:latest
 
             # 停止并移除旧容器（如果存在）
-            docker stop myapiapp-container || true
-            docker rm myapiapp-container || true
+            docker stop myapiapp || true
+            docker rm myapiapp || true
 
             # 启动新的容器
-            docker run -d --name myapiapp-container -p 44375:44375 ${{ secrets.ALIYUN_REGISTRY }}/myapiapp:latest
+            docker run -d --name myapiapp -p 44375:44375 ${{ secrets.ALIYUN_REGISTRY }}/myapiapp:latest
