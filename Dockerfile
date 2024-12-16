@@ -32,5 +32,8 @@ WORKDIR /app
 # 复制发布的应用程序文件
 COPY --from=build /app/publish .
 
+# 设置 ASP.NET Core 环境变量，监听 44375 端口
+ENV ASPNETCORE_URLS=http://+:44375
+
 # 设置容器启动命令
 ENTRYPOINT ["dotnet", "MyApiApp.dll"]
