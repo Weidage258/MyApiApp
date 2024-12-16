@@ -1,10 +1,10 @@
 # 使用官方 .NET 运行时镜像作为基础镜像
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 44375
 
 # 使用 SDK 镜像来构建应用程序
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
 # 复制 MyApiApp.csproj 文件到容器中的 /src 目录
