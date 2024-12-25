@@ -15,7 +15,7 @@ WORKDIR /src/MyApiApp
 RUN dotnet restore
 
 # 复制整个 MyApiApp 项目文件到容器
-COPY ./MyApiApp /src/MyApiApp/
+COPY ./src/MyApiApp/
 
 # 构建项目
 RUN dotnet build -c Release -o /app/build
