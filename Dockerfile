@@ -7,7 +7,6 @@ WORKDIR /src
 
 COPY MyApiApp/MyApiApp.sln ./
 COPY MyApiApp/MyApiApp.csproj ./MyApiApp/
-COPY myApiTest/myApiTest.csproj ./myApiTest/
 
 RUN dotnet restore MyApiApp.sln
 COPY . .
