@@ -1,3 +1,6 @@
+9__wV1P58Rh0mX2k66ry 
+
+
 # 使用官方 .NET 运行时镜像作为基础镜像
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
@@ -7,15 +10,15 @@ EXPOSE 44375
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
-# 复制 MyApiApp 项目的 csproj 文件
-COPY ./MyApiApp/MyApiApp.csproj /src/MyApiApp/
+# 复制 MyApiApp.csproj 文件到容器中的 /src 目录
+COPY MyApiApp.csproj /src/
 
-# 设置当前工作目录为 MyApiApp 并恢复依赖项
-WORKDIR /src/MyApiApp
+# 进入 /src 目录并恢复项目依赖
+WORKDIR /src
 RUN dotnet restore
 
-# 复制整个 MyApiApp 项目文件到容器
-COPY . /src/MyApiApp/
+# 复制整个 MyApiApp 文件夹到容器
+COPY . /src/
 
 # 构建项目
 RUN dotnet build -c Release -o /app/build
@@ -25,6 +28,8 @@ RUN dotnet publish -c Release -o /app/publish
 
 # 使用运行时镜像
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
+
+# 设置工作目录
 WORKDIR /app
 
 # 复制发布的应用程序文件
