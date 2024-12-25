@@ -10,7 +10,7 @@ WORKDIR /src
 # 复制 .csproj 文件到容器中的 /src 目录
 # 注意：我们复制 MyApiApp 和 MyApiTest 的项目文件
 COPY MyApiApp/MyApiApp.csproj /src/MyApiApp/
-COPY MyApiTest/MyApiTest.csproj /src/MyApiTest/
+
 
 # 进入 /src 目录并恢复项目依赖
 WORKDIR /src/MyApiApp
@@ -21,11 +21,11 @@ RUN dotnet restore
 
 # 复制整个 MyApiApp 和 MyApiTest 文件夹到容器
 COPY MyApiApp/ /src/MyApiApp/
-COPY MyApiTest/ /src/MyApiTest/
+
 
 # 构建 MyApiApp 和 MyApiTest 项目
 RUN dotnet build MyApiApp/MyApiApp.csproj -c Release -o /app/build
-RUN dotnet build MyApiTest/MyApiTest.csproj -c Release -o /app/build
+
 
 # 发布 MyApiApp 应用程序
 RUN dotnet publish MyApiApp/MyApiApp.csproj -c Release -o /app/publish
