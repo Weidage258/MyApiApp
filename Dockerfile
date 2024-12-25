@@ -7,17 +7,17 @@ EXPOSE 44375
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
-# 复制主应用程序项目文件到容器中
+# 复制 MyApiApp 项目的 csproj 文件
 COPY ./MyApiApp/MyApiApp.csproj /src/MyApiApp/
 
-# 进入 /src 目录并恢复项目依赖
-WORKDIR /src
+# 设置当前工作目录为 MyApiApp 并恢复依赖项
+WORKDIR /src/MyApiApp
 RUN dotnet restore
 
-# 复制主应用程序代码到容器中
+# 复制整个 MyApiApp 项目文件到容器
 COPY ./MyApiApp /src/MyApiApp
 
-# 构建主应用程序
+# 构建项目
 RUN dotnet build -c Release -o /app/build
 
 # 发布应用程序
