@@ -7,26 +7,21 @@ EXPOSE 44375
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
-# 复制 .csproj 文件到容器中的 /src 目录
-# 注意：我们复制 MyApiApp 和 MyApiTest 的项目文件
-COPY MyApiApp/MyApiApp.csproj /src/MyApiApp/
-
+# 复制 MyApiApp.csproj 文件到容器中的 /src 目录
+COPY MyApiApp.csproj /src/
 
 # 进入 /src 目录并恢复项目依赖
-WORKDIR /src/MyApiApp
+WORKDIR /src
 RUN dotnet restore
 
+# 复制整个 MyApiApp 文件夹到容器
+COPY . /src/
 
-# 复制整个 MyApiApp 和 MyApiTest 文件夹到容器
-COPY MyApiApp/ /src/MyApiApp/
+# 构建项目
+RUN dotnet build -c Release -o /app/build
 
-
-# 构建 MyApiApp 和 MyApiTest 项目
-RUN dotnet build MyApiApp/MyApiApp.csproj -c Release -o /app/build
-
-
-# 发布 MyApiApp 应用程序
-RUN dotnet publish MyApiApp/MyApiApp.csproj -c Release -o /app/publish
+# 发布应用程序
+RUN dotnet publish -c Release -o /app/publish
 
 # 使用运行时镜像
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
@@ -34,7 +29,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 # 设置工作目录
 WORKDIR /app
 
-# 复制发布的 MyApiApp 应用程序文件
+# 复制发布的应用程序文件
 COPY --from=build /app/publish .
 
 # 设置 ASP.NET Core 环境变量，监听 44375 端口
