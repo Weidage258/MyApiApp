@@ -7,21 +7,25 @@ EXPOSE 44375
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
-# 复制 MyApiApp.csproj 文件到容器中的 /src 目录
-COPY MyApiApp.csproj /src/
+# 复制解决方案文件到容器中
+COPY MyApiApp/MyApiApp.sln /src/MyApiApp.sln
+
+# 复制 MyApiApp 和 MyApiTest 的项目文件到容器中
+COPY MyApiApp/MyApiApp.csproj /src/MyApiApp/
+COPY myApiTest/myApiTest.csproj /src/myApiTest/
 
 # 进入 /src 目录并恢复项目依赖
 WORKDIR /src
-RUN dotnet restore
+RUN dotnet restore MyApiApp.sln
 
-# 复制整个 MyApiApp 文件夹到容器
+# 复制整个项目文件夹到容器中
 COPY . /src/
 
 # 构建项目
-RUN dotnet build -c Release -o /app/build
+RUN dotnet build MyApiApp.sln -c Release -o /app/build
 
 # 发布应用程序
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet publish MyApiApp.sln -c Release -o /app/publish
 
 # 使用运行时镜像
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
