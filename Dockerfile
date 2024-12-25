@@ -16,8 +16,6 @@ COPY MyApiApp/MyApiApp.csproj /src/MyApiApp/
 WORKDIR /src/MyApiApp
 RUN dotnet restore
 
-WORKDIR /src/MyApiTest
-RUN dotnet restore
 
 # 复制整个 MyApiApp 和 MyApiTest 文件夹到容器
 COPY MyApiApp/ /src/MyApiApp/
