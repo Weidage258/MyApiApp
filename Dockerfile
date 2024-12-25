@@ -12,7 +12,6 @@ COPY MyApiApp/MyApiApp.sln /src/MyApiApp.sln
 
 # 复制 MyApiApp 和 MyApiTest 的项目文件到容器中
 COPY MyApiApp/MyApiApp.csproj /src/MyApiApp/
-COPY myApiTest/myApiTest.csproj /src/myApiTest/
 
 # 进入 /src 目录并恢复项目依赖
 WORKDIR /src
